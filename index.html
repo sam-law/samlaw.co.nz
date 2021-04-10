@@ -5,27 +5,31 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sam Law</title>
 <style media="screen">
+      /* setup the basics */
       body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
       p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
-      #intro, #whatsnew { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
-      #into h2, #whatsnew h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
-      #intro h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
-      #intro a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
-      #intro, #intro a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
+      h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px; }
+      h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
       @media (max-width: 600px) {
-        body, #message { margin-top: 0; background: white; box-shadow: none; }
-        body { border-top: 16px solid #ffa100; }
+            body, #message { margin-top: 0; background: white; box-shadow: none; }
+            body { border-top: 16px solid #ffa100; }
       }
+            
+      /* lets get cardy */
+      .card { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
+      
+      /* Slap a button on it */
+      .button { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
     </style>
 </head>
 <body>
-<div id="intro">
+<div class="card">
 <h1>Hey there 👋</h1>
 <h2>My name is Sam, I live in Christchurch, New Zealand and currently work for Seequent</h2>
 <p>I love Design, the Web, and Advertising with meaning. I'm passionate about using data, technology and insights to drive better business results, happier customers, and deliver awesome experiences.</p>
-<a target="_blank" href="https://www.linkedin.com/in/samlaw">Connect with me on Linkedin</a>
+<a class="button" target="_blank" href="https://www.linkedin.com/in/samlaw">Connect with me on Linkedin</a>
 </div>
-<div id="whats-new">
+<div class="card">
 <h2>What's new with me 🤔</h2>
 <ul>
       <li>The company I work for is in the process of being <a href="https://www.businesswire.com/news/home/20210311006015/en/Bentley-Systems-Enters-into-1.05-Billion-Agreement-to-Acquire-Seequent-Global-Leader-in-3D-Modeling-Software-for-the-Geosciences">acquired for $1.05 billion dollars</a>, and is a <a href="https://www.hitech.org.nz/awards/finalists/year/2021">2021 finalist</a> in the New Zealand Hi-Tech awards.</li> 
