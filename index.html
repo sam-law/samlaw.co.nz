@@ -1,61 +1,244 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Sam Law</title>
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Averia+Serif+Libre:wght@300;700&family=Quicksand&display=swap" rel="stylesheet">
-  <style media="screen">
-    /* setup the basics */
-    body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: 'Quicksand', sans-serif; font-size: 16px; margin: 5rem 0; padding: 0; display: grid; grid-template-columns: auto 500px auto ; row-gap: 1.5rem }
-    p { line-height: 1.3rem; margin: 16px 0 24px; }
-    h1 { font-family: 'Averia Serif Libre', cursive; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px; }
-    h2 {font-family: 'Averia Serif Libre', cursive; font-weight: 700; color: #ffa100; margin: 0 0 8px; line-height: 1.8rem; }
-    a { color: #039be5; }
-    @media (max-width: 600px) {
-      body { border-top: 16px solid #ffa100; grid-template-columns: auto 90vw auto; margin-top: 0; padding-top: 1rem; }
-    }
-
-    /* Can I see your card */
-    .card { background: white; padding: 32px 24px; border-radius: 3px; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); place-self: center; grid-column: 2}
-
-    /* Slap a button on it */
-    .button { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
-
-    /* Who doesn't love a good list */
-    ul { padding-inline-start: 1.5rem; }
-    li { margin: 1rem 0; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sam Law | Marketing Technology & Operations</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Averia+Serif+Libre:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        h1, h2, h3, .font-averia {
+            font-family: 'Averia Serif Libre', cursive;
+        }
+    </style>
 </head>
-<body>
-  <div class="card">
-    <h1>Hey there 👋</h1>
-    <h2>My name is Sam, I live in Christchurch, New Zealand</h2>
-    <p>I've worked in various marketing technology roles for the past 15+ years</p>
-    <p>My work has included Marketing Automation, Experience Design, Web Platform, Attribution Modelling, Customer Insights, Translation & Regionalisation, Advertising Technology & DMP, Customer Data Layer & Measurement, Strategic Partnerships (Google/Nest).</p>
-    <p>I love Design, the Web & Advertising with meaning. I'm passionate about using data, technology and insights to drive better business results, happier customers, and deliver awesome experiences.</p>
-  </div>
-  <div class="card">
-    <h2>The most exciting part of my roles are the teams</h2>
-    <p>The teams I've worked with have ranged from a small startup crew, to large multinational corporations & government.</p>
-    <p>I've led teams of people who were specialists in marketing, technology & design.</p>
-  </div>
-  <div class="card">
-    <h2>What's new with me 🤔</h2>
-    <p>
-      <ul>
-        <li>I'm the director of marketing technology for Bentley Systems, the leading provider of infrastructure engineering software</li>
-        <li>I run a <a href="https://dhiferrari.co.nz/">specialty patisserie</a> here in Christchurch with my Partner Dhi</li>
-        <li>I was in a professional aerial/circus show <a href="https://www.instagram.com/p/C5wxqlvSHdy/">Silks & Sails</a></li>
-        <li><a href="https://www.strava.com/athletes/84672520">Trying to run</a> at least a day a week now</li>
-      </ul>
-    </p>
-  </div>
-  <div class="card">
-    <h2>Wanna chat?</h2>
-    <p>I'm always interested in catching up with people working on cool stuff, or just interested in what's going on in the web world.</p>
-    <a class="button" href="https://www.linkedin.com/in/samlaw">Connect with me on Linkedin</a>
-  </div>
+<body class="bg-slate-50 text-slate-900 antialiased selection:bg-blue-200 selection:text-blue-900">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold tracking-tight text-slate-800 font-averia">Sam Law.</a>
+            <div class="hidden md:flex space-x-8 text-sm font-medium text-slate-600">
+                <a href="#technology" class="hover:text-blue-600 transition-colors">Technology & Strategy</a>
+                <a href="#business" class="hover:text-blue-600 transition-colors">Business Operations</a>
+                <a href="#aerial" class="hover:text-blue-600 transition-colors">Aerial Fitness</a>
+            </div>
+            <a href="https://linkedin.com/in/samlaw" target="_blank" rel="noopener noreferrer" class="text-slate-500 hover:text-blue-600 transition-colors">
+                <i data-lucide="linkedin" class="w-5 h-5"></i>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="max-w-5xl mx-auto px-6 pt-24 pb-20 md:pt-32 md:pb-28">
+        <div class="max-w-3xl">
+            <div class="inline-flex items-center space-x-2 bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium mb-6">
+                <i data-lucide="map-pin" class="w-4 h-4"></i>
+                <span>Christchurch, New Zealand</span>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-bold tracking-tight text-slate-900 leading-tight mb-6">
+                Director of Marketing Technology, Aerial Arts Instructor, and Business Operator.
+            </h1>
+            <p class="text-lg md:text-xl text-slate-600 leading-relaxed">
+                With over 15 years of experience, I specialize in bridging complex technical infrastructure with user experience design. I build high-performing global teams, execute multi-million dollar nationwide campaigns, and run specialized local businesses.
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-5xl mx-auto px-6 pb-24 space-y-24">
+
+        <!-- 1. Technology & Strategy -->
+        <section id="technology" class="scroll-mt-24">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                <div class="lg:col-span-4 lg:sticky top-24">
+                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-6 text-blue-600">
+                        <i data-lucide="cpu" class="w-6 h-6"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-slate-900 mb-4">Technology & Marketing Strategy</h2>
+                    <p class="text-slate-600 leading-relaxed">
+                        Leading enterprise-scale technical initiatives and managing cross-functional teams across the globe to deliver measurable business results.
+                    </p>
+                </div>
+                <div class="lg:col-span-8 space-y-8 bg-white p-8 md:p-10 rounded-2xl shadow-sm border border-slate-100">
+                    <div>
+                        <h3 class="text-xl font-semibold text-slate-900 mb-3">Enterprise Infrastructure</h3>
+                        <p class="text-slate-600 leading-relaxed mb-4">
+                            As Director of Marketing Technology for Bentley Systems (NASDAQ: BSY), I directed complex infrastructure overhauls for the publicly traded enterprise, including large-scale, multi-system CRM and Marketo migrations. Scaled AI-driven marketing capabilities and integrated advanced technology stacks utilizing Demandbase, Drift, and Salesloft to drive efficiency and revenue growth.
+                        </p>
+                    </div>
+                    <hr class="border-slate-100">
+                    <div>
+                        <h3 class="text-xl font-semibold text-slate-900 mb-3">Global Campaign Execution & UX</h3>
+                        <p class="text-slate-600 leading-relaxed mb-4">
+                            Designed and executed multi-million dollar nationwide marketing campaigns. Deeply integrated user experience (UX) thinking into digital platforms to ensure seamless customer journeys and high engagement metrics.
+                        </p>
+                    </div>
+                    <hr class="border-slate-100">
+                    <div>
+                        <h3 class="text-xl font-semibold text-slate-900 mb-3">Team Leadership</h3>
+                        <p class="text-slate-600 leading-relaxed">
+                            Managed highly specialized teams consisting of marketing, technology, and design professionals distributed across multiple countries and time zones.
+                        </p>
+                    </div>
+                    <hr class="border-slate-100">
+                    <div>
+                        <h3 class="text-xl font-semibold text-slate-900 mb-3">Enterprise & Government Consulting</h3>
+                        <p class="text-slate-600 leading-relaxed mb-4">
+                            Provided digital and strategic consulting services to major New Zealand government entities and large enterprises, including Meridian Energy, Contact Energy, BRANZ, and Inland Revenue (IRD). Focused on digital transformation, platform architecture, and leading cross-functional teams through complex technological change.
+                        </p>
+                    </div>
+                    <hr class="border-slate-100">
+                    <div>
+                        <h3 class="text-xl font-semibold text-slate-900 mb-4">Core Disciplines</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">AI & Marketing Automation</span>
+                            <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">Experience Design & CX</span>
+                            <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">Web Platform Architecture</span>
+                            <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">Attribution Modelling</span>
+                            <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">Predictive Analytics & Data Literacy</span>
+                            <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">Translation & Regionalisation</span>
+                            <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">AdTech & Omnichannel Strategy</span>
+                            <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">Data Governance & Privacy</span>
+                            <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">Strategic Partnerships</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Business Operations -->
+        <section id="business" class="scroll-mt-24">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                <div class="lg:col-span-4 lg:sticky top-24">
+                    <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center mb-6 text-amber-600">
+                        <i data-lucide="store" class="w-6 h-6"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-slate-900 mb-4">Small Business Operations</h2>
+                    <p class="text-slate-600 leading-relaxed">
+                        Driving direct-to-consumer sales and managing the digital operations of a specialized local business.
+                    </p>
+                </div>
+                <div class="lg:col-span-8 space-y-8 bg-white p-8 md:p-10 rounded-2xl shadow-sm border border-slate-100">
+                    <div>
+                        <h3 class="text-xl font-semibold text-slate-900 mb-3">Dhi Ferrari Cakes</h3>
+                        <p class="text-slate-600 leading-relaxed mb-4">
+                            Co-owner and operator of a specialty patisserie located in The Welder, Christchurch. The business holds a 4.9/5 star rating across over 360 customer reviews. Responsible for business strategy, operational planning, and product development initiatives.
+                        </p>
+                    </div>
+                    <hr class="border-slate-100">
+                    <div>
+                        <h3 class="text-xl font-semibold text-slate-900 mb-3">Digital E-commerce Infrastructure</h3>
+                        <p class="text-slate-600 leading-relaxed">
+                            Architected and currently manage the digital storefront using Shopify. Implemented personalized customer lifecycle marketing flows via Klaviyo and executed targeted omnichannel media campaigns for specific promotions, including the successful Mother's Day high tea event.
+                        </p>
+                    </div>
+                    <hr class="border-slate-100">
+                    <div>
+                        <h3 class="text-xl font-semibold text-slate-900 mb-4">Core Disciplines</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">Strategic Governance & Operations</span>
+                            <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">Omnichannel E-commerce</span>
+                            <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">D2C Personalization & Retention</span>
+                            <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">Product Development</span>
+                            <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">Vendor & Supply Chain Management</span>
+                            <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">Financial Planning</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Aerial Fitness -->
+        <section id="aerial" class="scroll-mt-24">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                <div class="lg:col-span-4 lg:sticky top-24">
+                    <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center mb-6 text-emerald-600">
+                        <i data-lucide="activity" class="w-6 h-6"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-slate-900 mb-4">Aerial Fitness Instruction & Development</h2>
+                    <p class="text-slate-600 leading-relaxed">
+                        Applying structured methodologies and web development skills to the physical discipline of aerial arts.
+                    </p>
+                </div>
+                <div class="lg:col-span-8 space-y-8 bg-white p-8 md:p-10 rounded-2xl shadow-sm border border-slate-100">
+                    <div>
+                        <h3 class="text-xl font-semibold text-slate-900 mb-3">Professional Instruction</h3>
+                        <p class="text-slate-600 leading-relaxed mb-4">
+                            Over 5 years of experience in aerial arts. Currently teaching Level 1 and 2 classes focusing on aerial silks and net. Emphasizing safety, correct form, and progressive skill building.
+                        </p>
+                    </div>
+                    <hr class="border-slate-100">
+                    <div>
+                        <h3 class="text-xl font-semibold text-slate-900 mb-3">Resource & Application Development</h3>
+                        <p class="text-slate-600 leading-relaxed">
+                            Created comprehensive conditioning workbooks to support student development. Bridged technical and fitness expertise by developing 'Aerial Flow', a web application built with GitHub, Netlify, and Firebase, designed to systematically manage and catalog aerial moves.
+                        </p>
+                    </div>
+                    <hr class="border-slate-100">
+                    <div>
+                        <h3 class="text-xl font-semibold text-slate-900 mb-4">Core Disciplines</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">Empathetic Leadership & Coaching</span>
+                            <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">Instructional Design</span>
+                            <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">Resilience & Risk Management</span>
+                            <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">Community Building</span>
+                            <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">Application Development</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Open To / Connect -->
+        <section class="bg-slate-900 text-white p-8 md:p-12 rounded-2xl shadow-sm">
+            <div class="max-w-3xl">
+                <h2 class="text-3xl font-bold mb-4 font-averia">Advisory & Career Opportunities</h2>
+                <p class="text-slate-300 leading-relaxed mb-8 text-lg">
+                    I am available for mentoring engagements, board positions, and strategic digital consulting. I am highly receptive to senior leadership opportunities at global technology firms where I can leverage my digital fluency and change leadership experience to drive impactful transformation.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="mailto:mail@samlaw.co.nz" class="inline-flex items-center space-x-2 bg-white text-slate-900 px-6 py-3 rounded-xl font-medium hover:bg-slate-100 transition-colors">
+                        <i data-lucide="mail" class="w-5 h-5"></i>
+                        <span>Contact Me</span>
+                    </a>
+                    <a href="https://linkedin.com/in/samlaw" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-2 bg-slate-800 text-white px-6 py-3 rounded-xl font-medium hover:bg-slate-700 transition-colors border border-slate-700">
+                        <i data-lucide="linkedin" class="w-5 h-5"></i>
+                        <span>Connect on LinkedIn</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-12 mt-12">
+        <div class="max-w-5xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-slate-500 text-sm">
+            <p>&copy; <span id="year"></span> Sam Law. All rights reserved.</p>
+            <div class="flex flex-col sm:flex-row items-center sm:space-x-6 space-y-4 sm:space-y-0 mt-6 md:mt-0">
+                <a href="mailto:mail@samlaw.co.nz" class="hover:text-slate-900 transition-colors flex items-center space-x-2">
+                    <i data-lucide="mail" class="w-4 h-4"></i>
+                    <span>mail@samlaw.co.nz</span>
+                </a>
+                <a href="https://linkedin.com/in/samlaw" target="_blank" rel="noopener noreferrer" class="hover:text-slate-900 transition-colors flex items-center space-x-2">
+                    <i data-lucide="linkedin" class="w-4 h-4"></i>
+                    <span>Connect on LinkedIn</span>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+        
+        // Set current year in footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
 </body>
 </html>
