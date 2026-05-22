@@ -10,15 +10,15 @@
         @import url('https://fonts.googleapis.com/css2?family=Averia+Serif+Libre:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap');
         body {
             font-family: 'Inter', sans-serif;
-            background-color: transparent; /* Allow canvas to show through */
+            background-color: transparent;
         }
         html {
-            background-color: #f8fafc; /* Fallback matching slate-50 */
+            background-color: #f8fafc;
         }
         h1, h2, h3, .font-averia {
             font-family: 'Averia Serif Libre', cursive;
         }
-        #magnetic-canvas {
+        #topography-canvas {
             position: fixed;
             top: 0;
             left: 0;
@@ -31,7 +31,7 @@
 </head>
 <body class="text-slate-900 antialiased selection:bg-blue-200 selection:text-blue-900">
 
-    <canvas id="magnetic-canvas"></canvas>
+    <canvas id="topography-canvas"></canvas>
 
     <!-- Navigation -->
     <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
@@ -263,55 +263,87 @@
         // Set current year in footer
         document.getElementById('year').textContent = new Date().getFullYear();
 
-        // Magnetic Field Background Animation
-        const canvas = document.getElementById('magnetic-canvas');
+        // Topographic Field Background Animation
+        const canvas = document.getElementById('topography-canvas');
         const ctx = canvas.getContext('2d');
-        let width, height;
+        let width, height, docHeight;
         let lines = [];
-        let mouse = { x: -1000, y: -1000 };
+        let mouse = { clientX: -1000, clientY: -1000 };
         let time = 0;
 
         function resize() {
             width = canvas.width = window.innerWidth;
             height = canvas.height = window.innerHeight;
+            // Re-calculate full document height so lines cover the entire scrollable area
+            docHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
             initLines();
         }
 
-        class MagneticLine {
+        class TopoLine {
             constructor(yOffset) {
                 this.baseY = yOffset;
                 this.points = [];
-                // Create points across the screen horizontally
-                let spacing = 25; 
-                for (let x = -50; x <= width + 50; x += spacing) {
+                // Tighter point spacing for smooth contour curves
+                let pointSpacing = 15; 
+                // Render beyond edges so they don't snap into view
+                for (let x = -100; x <= width + 100; x += pointSpacing) {
                     this.points.push({ x: x, y: this.baseY, baseX: x, baseY: this.baseY });
                 }
             }
             
             update() {
+                // Fixed topographic hills simulating landscape elevation mapped to document height
+                const hills = [
+                    { rx: 0.15, absoluteY: 300, radius: 450, elevation: 120 },
+                    { rx: 0.85, absoluteY: 700, radius: 550, elevation: 160 },
+                    { rx: 0.5, absoluteY: 1500, radius: 350, elevation: 90 },
+                    { rx: 0.7, absoluteY: 2200, radius: 400, elevation: 110 },
+                    { rx: 0.2, absoluteY: 3000, radius: 500, elevation: 130 }
+                ];
+
+                // Calculate actual document-relative mouse position while scrolling
+                let docMouseY = mouse.clientY === -1000 ? -1000 : (mouse.clientY + window.scrollY);
+
                 this.points.forEach(p => {
-                    let dx = mouse.x - p.baseX;
-                    let dy = mouse.y - p.baseY;
-                    let distance = Math.sqrt(dx * dx + dy * dy);
-                    
                     let targetX = p.baseX;
                     let targetY = p.baseY;
-                    let maxDist = 350;
 
-                    // Create the magnetic field distortion around the cursor
-                    if (distance < maxDist && distance > 0) {
-                        let force = Math.pow(1 - distance / maxDist, 2);
-                        targetX -= (dx / distance) * force * 150;
-                        targetY -= (dy / distance) * force * 150;
+                    // Slow ambient geological shift (base subtle wave)
+                    targetY += Math.sin(p.baseX * 0.003 + time * 0.1) * 15;
+                    targetX += Math.cos(p.baseY * 0.003 + time * 0.1) * 15;
+
+                    // Apply topography displacement from fixed hills
+                    hills.forEach(hill => {
+                        let hx = width * hill.rx;
+                        let hy = hill.absoluteY;
+                        let dx = hx - p.baseX;
+                        let dy = hy - p.baseY;
+                        let dist = Math.sqrt(dx * dx + dy * dy);
+
+                        if (dist < hill.radius && dist > 0) {
+                            // Bell curve for smooth natural mountains
+                            let force = Math.exp(-(dist * dist) / (2 * (hill.radius/3) * (hill.radius/3)));
+                            // Push outward to create contour rings
+                            targetX -= (dx / dist) * force * hill.elevation;
+                            targetY -= (dy / dist) * force * hill.elevation;
+                        }
+                    });
+
+                    // Mouse acts as an interactive elevation peak
+                    let mdx = mouse.clientX === -1000 ? 10000 : (mouse.clientX - p.baseX);
+                    let mdy = mouse.clientY === -1000 ? 10000 : (docMouseY - p.baseY);
+                    let mDist = Math.sqrt(mdx * mdx + mdy * mdy);
+                    let maxMDist = 200; // Reduced radius for a tighter interaction area
+
+                    if (mDist < maxMDist && mDist > 0) {
+                        let mForce = Math.exp(-(mDist * mDist) / (2 * 80 * 80)); // Softer curve
+                        targetX -= (mdx / mDist) * mForce * 40; // Significantly reduced displacement height
+                        targetY -= (mdy / mDist) * mForce * 40;
                     }
 
-                    // Add a slow ambient wave to make the field feel alive
-                    targetY += Math.sin(p.baseX * 0.003 + time * 0.5) * 15;
-                    targetX += Math.cos(p.baseY * 0.003 + time * 0.5) * 10;
-
-                    // Smooth interpolation towards the target position
-                    p.x += (targetX - p.x) * 0.08;
-                    p.y += (targetY - p.y) * 0.08;
+                    // Smooth spring interpolation to target
+                    p.x += (targetX - p.x) * 0.06;
+                    p.y += (targetY - p.y) * 0.06;
                 });
             }
 
@@ -319,37 +351,44 @@
                 ctx.beginPath();
                 ctx.moveTo(this.points[0].x, this.points[0].y);
                 
-                // Draw smooth bezier curves through the points
+                // Draw smooth bezier curves
                 for (let i = 0; i < this.points.length - 1; i++) {
                     let xc = (this.points[i].x + this.points[i + 1].x) / 2;
                     let yc = (this.points[i].y + this.points[i + 1].y) / 2;
                     ctx.quadraticCurveTo(this.points[i].x, this.points[i].y, xc, yc);
                 }
                 
-                // Tech blue color with low opacity for the field lines
-                ctx.strokeStyle = 'rgba(14, 165, 233, 0.15)'; 
-                ctx.lineWidth = 1.5;
+                // Fine, map-like contour lines, slightly more transparent due to density
+                ctx.strokeStyle = 'rgba(14, 165, 233, 0.12)'; 
+                ctx.lineWidth = 0.8;
                 ctx.stroke();
             }
         }
 
         function initLines() {
             lines = [];
-            let spacing = 35; // Vertical space between field lines
-            for (let y = -50; y <= height + 50; y += spacing) {
-                lines.push(new MagneticLine(y));
+            let spacing = 8; // Tighter vertical spacing for dense topography
+            for (let y = -150; y <= docHeight + 500; y += spacing) {
+                lines.push(new TopoLine(y));
             }
         }
 
         function animate() {
-            // Clear canvas completely each frame to ensure crisp lines without trails
+            // Reset transform to clear the physical viewport correctly
+            ctx.resetTransform();
             ctx.clearRect(0, 0, width, height);
             
-            time += 0.02;
+            time += 0.015; // Slow down the shifting
+
+            // Translate canvas inversely to scroll to pin lines to the document
+            ctx.translate(0, -window.scrollY);
 
             lines.forEach(line => {
-                line.update();
-                line.draw();
+                // Viewport Culling: Only process lines that are currently visible
+                if (line.baseY >= window.scrollY - 150 && line.baseY <= window.scrollY + height + 150) {
+                    line.update();
+                    line.draw();
+                }
             });
             
             requestAnimationFrame(animate);
@@ -357,23 +396,25 @@
 
         window.addEventListener('resize', resize);
         window.addEventListener('mousemove', (e) => {
-            mouse.x = e.clientX;
-            mouse.y = e.clientY;
+            mouse.clientX = e.clientX;
+            mouse.clientY = e.clientY;
         });
         window.addEventListener('mouseout', () => {
-            mouse.x = -1000;
-            mouse.y = -1000;
+            mouse.clientX = -1000;
+            mouse.clientY = -1000;
         });
         window.addEventListener('touchmove', (e) => {
             if(e.touches.length > 0) {
-                mouse.x = e.touches[0].clientX;
-                mouse.y = e.touches[0].clientY;
+                mouse.clientX = e.touches[0].clientX;
+                mouse.clientY = e.touches[0].clientY;
             }
         }, {passive: true});
 
-        // Start animation
-        resize();
-        animate();
+        // Start animation, with a slight delay to ensure fonts/layout are fully loaded for docHeight
+        setTimeout(() => {
+            resize();
+            animate();
+        }, 100);
     </script>
 </body>
 </html>
