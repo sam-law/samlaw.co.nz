@@ -10,13 +10,28 @@
         @import url('https://fonts.googleapis.com/css2?family=Averia+Serif+Libre:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap');
         body {
             font-family: 'Inter', sans-serif;
+            background-color: transparent; /* Allow canvas to show through */
+        }
+        html {
+            background-color: #f8fafc; /* Fallback matching slate-50 */
         }
         h1, h2, h3, .font-averia {
             font-family: 'Averia Serif Libre', cursive;
         }
+        #magnetic-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+        }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-900 antialiased selection:bg-blue-200 selection:text-blue-900">
+<body class="text-slate-900 antialiased selection:bg-blue-200 selection:text-blue-900">
+
+    <canvas id="magnetic-canvas"></canvas>
 
     <!-- Navigation -->
     <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
@@ -35,17 +50,22 @@
 
     <!-- Hero Section -->
     <header class="max-w-5xl mx-auto px-6 pt-24 pb-20 md:pt-32 md:pb-28">
-        <div class="max-w-3xl">
-            <div class="inline-flex items-center space-x-2 bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium mb-6">
-                <i data-lucide="map-pin" class="w-4 h-4"></i>
-                <span>Christchurch, New Zealand</span>
+        <div class="flex flex-col-reverse md:flex-row items-center md:items-start gap-12 md:gap-16">
+            <div class="flex-1 max-w-3xl text-center md:text-left">
+                <div class="inline-flex items-center space-x-2 bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium mb-6">
+                    <i data-lucide="map-pin" class="w-4 h-4"></i>
+                    <span>Christchurch, New Zealand</span>
+                </div>
+                <h1 class="text-4xl md:text-6xl font-bold tracking-tight text-slate-900 leading-tight mb-6">
+                    Director of Marketing Technology, Aerial Arts Instructor, and Business Operator.
+                </h1>
+                <p class="text-lg md:text-xl text-slate-600 leading-relaxed">
+                    With over 15 years of experience, I specialize in bridging complex technical infrastructure with user experience design. I build high-performing global teams, execute multi-million dollar nationwide campaigns, and run specialized local businesses.
+                </p>
             </div>
-            <h1 class="text-4xl md:text-6xl font-bold tracking-tight text-slate-900 leading-tight mb-6">
-                Director of Marketing Technology, Aerial Arts Instructor, and Business Operator.
-            </h1>
-            <p class="text-lg md:text-xl text-slate-600 leading-relaxed">
-                With over 15 years of experience, I specialize in bridging complex technical infrastructure with user experience design. I build high-performing global teams, execute multi-million dollar nationwide campaigns, and run specialized local businesses.
-            </p>
+            <div class="shrink-0 w-48 h-48 md:w-64 md:h-64">
+                <img src="profile.jpg" alt="Sam Law" class="w-full h-full object-cover rounded-3xl shadow-xl border-4 border-white/50">
+            </div>
         </div>
     </header>
 
@@ -239,6 +259,118 @@
         
         // Set current year in footer
         document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Magnetic Field Background Animation
+        const canvas = document.getElementById('magnetic-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let lines = [];
+        let mouse = { x: -1000, y: -1000 };
+        let time = 0;
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            initLines();
+        }
+
+        class MagneticLine {
+            constructor(yOffset) {
+                this.baseY = yOffset;
+                this.points = [];
+                // Create points across the screen horizontally
+                let spacing = 25; 
+                for (let x = -50; x <= width + 50; x += spacing) {
+                    this.points.push({ x: x, y: this.baseY, baseX: x, baseY: this.baseY });
+                }
+            }
+            
+            update() {
+                this.points.forEach(p => {
+                    let dx = mouse.x - p.baseX;
+                    let dy = mouse.y - p.baseY;
+                    let distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    let targetX = p.baseX;
+                    let targetY = p.baseY;
+                    let maxDist = 350;
+
+                    // Create the magnetic field distortion around the cursor
+                    if (distance < maxDist && distance > 0) {
+                        let force = Math.pow(1 - distance / maxDist, 2);
+                        targetX -= (dx / distance) * force * 150;
+                        targetY -= (dy / distance) * force * 150;
+                    }
+
+                    // Add a slow ambient wave to make the field feel alive
+                    targetY += Math.sin(p.baseX * 0.003 + time * 0.5) * 15;
+                    targetX += Math.cos(p.baseY * 0.003 + time * 0.5) * 10;
+
+                    // Smooth interpolation towards the target position
+                    p.x += (targetX - p.x) * 0.08;
+                    p.y += (targetY - p.y) * 0.08;
+                });
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.moveTo(this.points[0].x, this.points[0].y);
+                
+                // Draw smooth bezier curves through the points
+                for (let i = 0; i < this.points.length - 1; i++) {
+                    let xc = (this.points[i].x + this.points[i + 1].x) / 2;
+                    let yc = (this.points[i].y + this.points[i + 1].y) / 2;
+                    ctx.quadraticCurveTo(this.points[i].x, this.points[i].y, xc, yc);
+                }
+                
+                // Tech blue color with low opacity for the field lines
+                ctx.strokeStyle = 'rgba(14, 165, 233, 0.15)'; 
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+            }
+        }
+
+        function initLines() {
+            lines = [];
+            let spacing = 35; // Vertical space between field lines
+            for (let y = -50; y <= height + 50; y += spacing) {
+                lines.push(new MagneticLine(y));
+            }
+        }
+
+        function animate() {
+            // Clear canvas completely each frame to ensure crisp lines without trails
+            ctx.clearRect(0, 0, width, height);
+            
+            time += 0.02;
+
+            lines.forEach(line => {
+                line.update();
+                line.draw();
+            });
+            
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', resize);
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+        window.addEventListener('mouseout', () => {
+            mouse.x = -1000;
+            mouse.y = -1000;
+        });
+        window.addEventListener('touchmove', (e) => {
+            if(e.touches.length > 0) {
+                mouse.x = e.touches[0].clientX;
+                mouse.y = e.touches[0].clientY;
+            }
+        }, {passive: true});
+
+        // Start animation
+        resize();
+        animate();
     </script>
 </body>
 </html>
